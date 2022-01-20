@@ -1,0 +1,19 @@
+Pode-se utilizar Vue.js, React ou Angular. Há a óbvia preferência pela biblioteca mais compatível com a vaga (estes testes terão peso maior no processo seletivo).
+Após o término, informar aqui a URL do repositório criado e clicar em submit.
+
+INSTRUÇÕES - CONSUMO DE API
+Acessar a API e listar o conteúdo da tabela 'pessoas' (adicionar recurso de paginação é opcional).
+Instruções referente à lista:
+- é necessário exibir apenas as colunas "nome" e "data de admissão" da tabela;
+- em nome, exibir apenas o primeiro nome;
+- em data de admissão, exibir data em padrão brasileiro.
+- criar componente "person-list";
+- criar componente "person-item";
+- listar os usuários na aplicação;
+- em cada item, adicionar botão "editar / excluir" em cada registro de usuário (as edições / exclusões devem afetar o banco de dados).
+- abaixo da lista, criar formulário para adição de novo registro.
+
+A página deve conter um campo de busca, que filtra o conteúdo da lista.
+
+INSTRUÇÕES CSS
+Pode-se utilizar qualquer framework CSS (como o Bulma, por exemplo), para a criação da interface.

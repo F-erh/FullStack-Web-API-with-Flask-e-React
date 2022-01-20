@@ -1,0 +1,28 @@
+Desafio técnico: instruções no final do documento.
+1) Escreva uma função que receba uma array de inteiros e retorne a quantidade de elementos da array com valor acima da média.
+Entrada: [22, 28, 33, 54, 14, 2, 76]
+Saída prevista: 3
+Resposta:
+
+2) Escreva uma função que receba uma array de strings não vazias e retorne a quantidade de strings iniciadas pela letra "a".
+Entrada: [‘front-end’, ’angular’, ’back-end’, ’database’, ’async’]
+Saída prevista: 2
+Resposta:
+
+3) Escreva uma função que receba uma array de inteiros e retorne a soma de todos os números em índices ímpares.
+Entrada: [22, 28, 33, 54, 14, 2, 76]
+Saída prevista: 84
+Resposta:
+
+4) Escreva uma função que receba uma array de strings não vazias e retorne um novo vetor em que o primeiro letra de cada string foi substituído pela letra "a".
+Entrada: [‘front-end’, ’back-end’, ’database’]
+Saída prevista: [‘aront-end’, ’aack-end’, ’aatabase’]
+Resposta:
+
+5) Escreva uma função que receba uma string e 
+- elimine os espaços em seu início e término, 
+- substitua a vírgula por um ponto de exclamação,
+- substitua “olá” por uma saudação (bom dia, boa tarde, boa noite) de acordo com o horário.
+Entrada: ' Olá usuário, bem-vindo ao sistema  '
+Saída prevista: 'Bom dia, usuário! Bem-vindo ao sistema'
+Resposta:
