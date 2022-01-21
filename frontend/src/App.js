@@ -1,13 +1,12 @@
-
 import './App.css';
 import {useState, useEffect} from 'react';
-import UserList from './components/UserList';
+import PessoaList from './components/PessoaList';
 import Form from './components/Form';
 
 function App() {
 
-  const [users, setUsers] = useState([])
-  const [editedUsers, seteditedUsers] = useState(null)
+  const [Pessoa, setPessoa] = useState([])
+  const [editedPessoa, seteditedPessoa] = useState(null)
 
   useEffect(() => {
     fetch('http://127.0.0.1:5000/get', {
@@ -17,46 +16,46 @@ function App() {
       }
     })
     .then(resp => resp.json())
-    .then(resp => setUsers(resp))
+    .then(resp => setPessoa(resp))
     .catch(error => console.log(error))
 
   },[])
 
-  const editUsers = (user) => {
+  const UpdatePessoa = (pessoa) => {
 
-    seteditedUsers(user)
+    seteditedPessoa(pessoa)
   }
 
-  const updatedData = (user) => {
-    const new_users = users.map(my_users => {
-      if(my_users.id === user.id) {
-        return user
+  const updatedData = (pessoa) => {
+    const new_Pessoa = Pessoa.map(my_Pessoa => {
+      if(my_Pessoa.id === pessoa.id) {
+        return pessoa
       } else {
-        return my_users
+        return my_Pessoa
       }
     })
-    setUsers(new_users)
+    setPessoa(new_Pessoa)
   }
 
   const openForm = () => {
-    seteditedUsers({title:'', body:''})
+    seteditedPessoa({nome:'', rg:'', cpf:'', data_nascimento:'', data_admissao:'', funcao:''})
   }
 
-  const insertedUsers  = (user) => {
-    const new_users = [...users, user]
-    setUsers(new_users)
+  const insertedPessoa  = (pessoa) => {
+    const new_Pessoa = [...Pessoa, pessoa]
+    setPessoa(new_Pessoa)
 
   }
 
-  const deleteUsers = (user) => {
-    const new_users = users.filter(myuser => {
-      if(myuser.id === user.id) {
+  const deletePessoa = (pessoa) => {
+    const new_Pessoa = Pessoa.filter(mypessoa => {
+      if(mypessoa.id === pessoa.id) {
         return false;
       }
       return true
     })
 
-    setUsers(new_users)
+    setPessoa(new_Pessoa)
 
   }
 
@@ -65,14 +64,14 @@ function App() {
     <div className="App">
       <div className = "row">
         <div className = "col">
-        <h1>Usuários</h1>
+        <h1>Lista de Funcionários</h1>
 
         </div>
         <div className = "col">
         <button
         className = "btn btn-success"
         onClick = {openForm}
-        >Insertuser</button>
+        >Insira Funcionário</button>
 
         </div>
       </div>
@@ -80,9 +79,9 @@ function App() {
       <br/>
       <br/>
 
-        <UserList users = {users} editUsers = {editUsers} deleteUsers = {deleteUsers}/>
+        <PessoaList Pessoa = {Pessoa} UpdatePessoa = {UpdatePessoa} deletePessoa = {deletePessoa}/>
 
-        {editedUsers ? <Form user = {editedUsers} updatedData = {updatedData} insertedUsers  = {insertedUsers}/> : null}
+        {editedPessoa ? <Form pessoa = {editedPessoa} updatedData = {updatedData} insertedPessoa  = {insertedPessoa}/> : null}
 
         
     </div>
