@@ -7,14 +7,14 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:<miau>@localhost:3306/crud-apiflask'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:12345678@localhost/crud-apiflask'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
 ma = Marshmallow(app)
 
 
-class Articles(db.Model):
+class Users(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100))
     body = db.Column(db.Text())
@@ -26,64 +26,64 @@ class Articles(db.Model):
         self.body = body
 
 
-class ArticleSchema(ma.Schema):
+class Userschema(ma.Schema):
     class Meta:
         fields = ('id', 'title', 'body', 'date')
 
 
-article_schema = ArticleSchema()
-articles_schema = ArticleSchema(many=True)
+users_schema = Userschema()
+users_schema = Userschema(many=True)
 
 
 @app.route('/get', methods = ['GET'])
-def get_articles():
-    all_articles = Articles.query.all()
-    results = articles_schema.dump(all_articles)
+def get_users():
+    all_users = Users.query.all()
+    results = users_schema.dump(all_users)
     return jsonify(results)
 
 
 @app.route('/get/<id>/', methods = ['GET'])
 def post_details(id):
-    article = Articles.query.get(id)
-    return article_schema.jsonify(article)
+    user = Users.query.get(id)
+    return users_schema.jsonify(user)
 
 
 @app.route('/add', methods = ['POST'])
-def add_article():
+def add_user():
     title = request.json['title']
     body = request.json['body']
 
-    articles = Articles(title, body)
-    db.session.add(articles)
+    users = Users(title, body)
+    db.session.add(users)
     db.session.commit()
-    return article_schema.jsonify(articles)
+    return users_schema.jsonify(users)
 
 
 
 @app.route('/update/<id>/', methods = ['PUT'])
-def update_article(id):
-    article = Articles.query.get(id)
+def update_user(id):
+    user = Users.query.get(id)
 
     title = request.json['title']
     body = request.json['body']
 
-    article.title = title
-    article.body = body
+    user.title = title
+    user.body = body
 
     db.session.commit()
-    return article_schema.jsonify(article)
+    return users_schema.jsonify(user)
 
 
 
 @app.route('/delete/<id>/', methods = ['DELETE'])
-def article_delete(id):
-    article = Articles.query.get(id)
-    db.session.delete(article)
+def user_delete(id):
+    user = Users.query.get(id)
+    db.session.delete(user)
     db.session.commit()
 
-    return article_schema.jsonify(article)
+    return users_schema.jsonify(user)
 
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run()
