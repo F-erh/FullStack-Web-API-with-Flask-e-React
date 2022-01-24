@@ -6,7 +6,7 @@ Acessar a API e listar o conteúdo da tabela 'pessoas' (adicionar recurso de pag
 Instruções referente à lista:
 - é necessário exibir apenas as colunas "nome" e "data de admissão" da tabela;
 - em nome, exibir apenas o primeiro nome;
-- em data de admissão, exibir data em padrão brasileiro.**
+- em data de admissão, exibir data em padrão brasileiro.
 - criar componente "person-list";*
 - criar componente "person-item";*
 - listar os usuários na aplicação;
