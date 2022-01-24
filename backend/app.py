@@ -2,12 +2,17 @@ from flask import Flask, jsonify, request
 from flask_sqlalchemy import SQLAlchemy
 import datetime
 from flask_marshmallow import Marshmallow
-from flask_cors import CORS
+from flask_cors import CORS, cross_origin
 
 app = Flask(__name__)
+cors = CORS(app, resource={
+    r"/*":{
+        "origins":"*"
+    }
+})
 CORS(app)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:12345678@localhost/crud-apiflask'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:12345678@localhost/backend'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
@@ -15,28 +20,25 @@ ma = Marshmallow(app)
 
 
 class Pessoas(db.Model):
-    id_pessoas = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
     nome = db.Column(db.String(100))
-    rg = db.Column(db.Integer())
-    cpf = db.Column(db.Integer())
-    data_nascimento = db.Column(db.DateTime)
-    data_admissao = db.Column(db.DateTime)
-    funcao = db.Column(db.Integer())
+    rg = db.Column(db.Text())
+    cpf = db.Column(db.Text)
+    data_nascimento = db.Column(db.Date())
+    data_admissao = db.Column(db.Date())
     date = db.Column(db.DateTime, default = datetime.datetime.now)
 
 
-    def __init__(self, nome, rg, cpf, data_nascimento, data_admissao, funcao):
+    def __init__(self, nome, rg, cpf, data_nascimento, data_admissao):
         self.nome = nome
         self.rg = rg
         self.cpf = cpf
         self.data_nascimento = data_nascimento
         self.data_admissao = data_admissao
-        self.funcao = funcao
-
 
 class PessoaSchema(ma.Schema):
     class Meta:
-        fields = ('id_pessoas', 'nome', 'rg', 'cpf', 'data_nascimento', 'data_admissao', 'funcao', 'date')
+        fields = ('id', 'nome', 'rg', 'cpf', 'data_nascimento', 'data_admissao', 'date')
 
 
 pessoa_schema = PessoaSchema()
@@ -50,55 +52,51 @@ def get_pessoas():
     return jsonify(results)
 
 
-@app.route('/get/<id_pessoas>/', methods = ['GET'])
-def post_details(id_pessoas):
-    pessoa = Pessoas.query.get(id_pessoas)
+@app.route('/get/<id>/', methods = ['GET'])
+def post_details(id):
+    pessoa = Pessoas.query.get(id)
     return pessoa_schema.jsonify(pessoa)
 
 
 @app.route('/add', methods = ['POST'])
-def add_pessoas():
+def add_pessoa():
     nome = request.json['nome']
     rg = request.json['rg']
     cpf = request.json['cpf']
     data_nascimento = request.json['data_nascimento']
     data_admissao = request.json['data_admissao']
-    funcao = request.json['funcao']
 
-    pessoas = Pessoas(nome, rg, cpf, data_nascimento, data_admissao, funcao)
+    pessoas = Pessoas(nome, rg, cpf, data_nascimento, data_admissao)
     db.session.add(pessoas)
     db.session.commit()
     return pessoa_schema.jsonify(pessoas)
 
 
 
-@app.route('/update/<id_pessoas>/', methods = ['PUT'])
-def update_pessoa(id_pessoas):
-    pessoa = Pessoas.query.get(id_pessoas)
+@app.route('/update/<id>/', methods = ['PUT'])
+def update_pessoa(id):
+    pessoa = Pessoas.query.get(id)
 
     nome = request.json['nome']
     rg = request.json['rg']
     cpf = request.json['cpf']
     data_nascimento = request.json['data_nascimento']
     data_admissao = request.json['data_admissao']
-    funcao = request.json['funcao']
-
+    
     pessoa.nome = nome
     pessoa.rg = rg
     pessoa.cpf = cpf
     pessoa.data_nascimento = data_nascimento
     pessoa.data_admissao = data_admissao
-    pessoa.funcao = funcao
-    
 
     db.session.commit()
     return pessoa_schema.jsonify(pessoa)
 
 
 
-@app.route('/delete/<id_pessoas>/', methods = ['DELETE'])
-def pessoa_delete(id_pessoas):
-    pessoa = Pessoas.query.get(id_pessoas)
+@app.route('/delete/<id>/', methods = ['DELETE'])
+def pessoa_delete(id):
+    pessoa = Pessoas.query.get(id)
     db.session.delete(pessoa)
     db.session.commit()
 
@@ -106,5 +104,5 @@ def pessoa_delete(id_pessoas):
 
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     app.run()
