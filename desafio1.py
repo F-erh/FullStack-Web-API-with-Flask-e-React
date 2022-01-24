@@ -17,7 +17,7 @@ def printAboveAvg(arr, a):
 	# average
 	for i in range(a):
 		if arr[i] > avg:
-			print(arr[i], end = " ")
+			print(arr[i])
 
 # Driver Program
 arr = [22, 28, 33, 54, 14, 2, 76]
