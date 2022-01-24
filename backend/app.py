@@ -12,7 +12,7 @@ cors = CORS(app, resource={
 })
 CORS(app)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:12345678@localhost/backend'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://fernandagaspar:ZmVybmFuZGFn@localhost/fernandagaspar'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
